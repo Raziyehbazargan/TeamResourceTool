@@ -2,4 +2,4 @@
 
 
 ### Enable Migration
---> enable-migrations
+`In Package Manager Console  -> enable-migrations`
