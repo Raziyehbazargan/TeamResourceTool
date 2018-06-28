@@ -51,7 +51,7 @@ namespace TeamResourceTool.Models
 
 
         //Project to Resource : many to many Relationship mapping
-        public virtual ICollection<Resource> Recources { get; set; }
+        public virtual ICollection<ProjectResource> ProjectResource { get; set; }
 
     }
 }

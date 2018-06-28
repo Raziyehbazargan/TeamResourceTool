@@ -20,6 +20,13 @@ namespace TeamResourceTool.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+        public DbSet<Team> Team { get; set; }
+        public DbSet<Project> Project { get; set; }
+        public DbSet<Resource> Resource { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<ProjectResource> ProjectResource { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
