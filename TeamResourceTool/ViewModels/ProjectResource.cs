@@ -9,6 +9,9 @@ namespace TeamResourceTool.ViewModels
     public class ProjectDetails
     {
         public Project Project { get; set; }
+
         public IEnumerable<Resource> Resources { get; set; }
+
+        public IEnumerable<Resource> OnsiteResources { get; set; }
     }
 }

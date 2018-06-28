@@ -52,38 +52,42 @@
             <p><b>Event Date:</b> @Model.Project.EventDates</p>
             <p><b>Duration:</b> @Model.Project.BuildStart - @Model.Project.GoLive</p>
             <p><b>Client:</b> @Model.Project.Client</p>
-            <p><b>Team:</b></p>
-            <ul class="list-unstyled">
-                <li class="media">
-                    @{
-                        if (Model.Resources.Any())
-                        {
-                            foreach (var item in Model.Resources)
-                            {
-                                <img style="width:40px" class="mr-3" src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png" alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <h5 class="mt-0 mb-1">@item.FirstName</h5>
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <p>No Resources assigned</p>
-                        }
+            <p><b>Team Resources:</b> <span class="badge badge-success">@Model.Resources.Count()</span></p>
+            @{
+                if (Model.Resources.Any())
+                {
+                    foreach (var item in Model.Resources)
+                    {
+                        <div>
+                            <img style="width:40px" class="mr-3" src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png" alt="Generic placeholder image">
+                            <h5 class="mt-0 mb-1">@item.FirstName</h5>
+                        </div>
                     }
-
-                </li>
-            </ul>
- 
+                }
+                else
+                {
+                    <div class="media">
+                        <p>No Resource assigned</p>
+                    </div>
+                }
+            }
         </div>
 
     </div>
     <div class="col-md-3">
         <div class="card bg-light mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
+            <div class="card-header">
+                <b>Onsite Resources</b>  <span class="badge badge-warning">@Model.OnsiteResources.Count()</span>
+            </div>
             <div class="card-body">
-                <h4 class="card-title">Light card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                @foreach (var item in Model.OnsiteResources)
+                {
+                    <p>
+                        <b>@item.FirstName @item.LastName</b><br/>
+                        @item.Role.Name
+                    </p>
+                    <hr/>
+                }
             </div>
         </div>
         <div class="card bg-light mb-3" style="max-width: 20rem;">

@@ -37,7 +37,8 @@ namespace TeamResourceTool.Controllers
             var viewModel = new ProjectDetails
             {
                 Project = _context.Project.Where(p => p.Id == projectID).FirstOrDefault(),
-                Resources = _context.Project.Where(p => p.Id == projectID).SelectMany(r => r.ProjectResource.Select(c => c.Resource)).ToList()
+                Resources = _context.Project.Where(p => p.Id == projectID).SelectMany(r => r.ProjectResource.Select(c => c.Resource)).ToList(),
+                OnsiteResources = _context.Project.Where(p => p.Id == projectID).SelectMany(r => r.ProjectResource.Where(pr => pr.OnSite).Select(c => c.Resource)).ToList()
             };
 
             return View(viewModel);
