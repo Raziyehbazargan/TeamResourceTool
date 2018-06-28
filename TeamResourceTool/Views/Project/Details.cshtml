@@ -1,0 +1,101 @@
+﻿@model TeamResourceTool.ViewModels.ProjectDetails
+
+@{
+    ViewBag.Title = "AssignResource";
+}
+
+@helper ProjectStatus(string statusName)
+{
+    if (statusName == "Active")
+    {
+        <span class="badge badge-success">@statusName</span>
+    }
+    else if (statusName == "Closed")
+    {
+        <span class="badge badge-default">@statusName</span>
+    }
+    else
+    {
+        <span class="badge badge-warning">@statusName</span>
+    }
+}
+
+<br/>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Team")">Team</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Project")">Project List</a></li>
+    <li class="breadcrumb-item">Assign Resources</li>
+</ol>
+
+<br />
+
+<div class="row">
+    <h4 class="col-md-12">
+        @Model.Project.Name | @ProjectStatus(Model.Project.Status)
+    </h4>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div style="text-align: right;">
+            <button class="btn btn-info">Edit Project</button>
+        </div>
+        <h4>General Info</h4>
+        <p>@Model.Project.Description</p>
+        <br />
+
+        <div style="margin-left:20px;" class="">
+            <p><b>Go Live Date:</b> @Model.Project.GoLive</p>
+            <p><b>Event Date:</b> @Model.Project.EventDates</p>
+            <p><b>Duration:</b> @Model.Project.BuildStart - @Model.Project.GoLive</p>
+            <p><b>Client:</b> @Model.Project.Client</p>
+            <p><b>Team:</b></p>
+            <ul class="list-unstyled">
+                <li class="media">
+                    @{
+                        if (Model.Resources.Any())
+                        {
+                            foreach (var item in Model.Resources)
+                            {
+                                <img style="width:40px" class="mr-3" src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png" alt="Generic placeholder image">
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb-1">@item.FirstName</h5>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>No Resources assigned</p>
+                        }
+                    }
+
+                </li>
+            </ul>
+ 
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-light mb-3" style="max-width: 20rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h4 class="card-title">Light card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3" style="max-width: 20rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h4 class="card-title">Light card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
