@@ -42,7 +42,7 @@
     <div class="col-md-9">
         <div style="text-align: right;">
             <button class="btn btn-info">Edit Project</button>
-            <a href="@Url.Action("AssignResource", "Project")" class="btn btn-warning">Assign Resource</a>
+            <a href="@Url.Action("AssignResource", "Project", new { id = Model.Project.TeamId })" class="btn btn-warning">Assign Resource</a>
 
         </div>
         <h4>General Info</h4>

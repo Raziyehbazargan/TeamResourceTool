@@ -1,7 +1,129 @@
-﻿
+﻿@model TeamResourceTool.ViewModels.AssignResource
 @{
     ViewBag.Title = "AssignResource";
 }
 
-<h2>AssignResource</h2>
+<br />
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Team")">Team</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Project")">Project List</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Details","Project")">Project Detail</a></li>
+    <li class="breadcrumb-item">Assign Resources</li>
+</ol>
+
+<br />
+
+<div class="row">
+    <div class="col-md-6">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tss">TSS PM</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade show active" id="tss">
+                <table class="table table-hover">
+                    <tbody>
+                        @foreach (var item in Model.Resources)
+                        {
+                            if (item.Role.Name.Contains("TSS"))
+                            {
+                                <tr class="table-secondary">
+                                    <th scope="row">@item.FirstName @item.LastName<br/><small>@item.Role.Name</small></th>
+                                    <th scope="row"><small>number of active projects</small></th>
+                                    <td>
+                                        <a class="btn btn-block btn-sm btn-info">Assign</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#cs">CS PM</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade show active" id="cs">
+                <table class="table table-hover">
+                    <tbody>
+                        @foreach (var item in Model.Resources)
+                        {
+                            if (item.Role.Name.Contains("CS"))
+                            {
+                                <tr class="table-secondary">
+                                    <th scope="row">@item.FirstName @item.LastName<br /><small>@item.Role.Name</small></th>
+                                    <th scope="row"><small>number of active projects</small></th>
+                                    <td>
+                                        <a class="btn btn-block btn-sm btn-info">Assign</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#dev">Web Developer</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade show active" id="dev">
+                <table class="table table-hover">
+                    <tbody>
+                        @foreach (var item in Model.Resources)
+                        {
+                            if (item.Role.Name.Contains("Developer"))
+                            {
+                                <tr class="table-secondary">
+                                    <th scope="row">@item.FirstName @item.LastName<br /><small>@item.Role.Name</small></th>
+                                    <th scope="row"><small>number of active projects</small></th>
+                                    <td>
+                                        <a class="btn btn-block btn-sm btn-info">Assign</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#wp">Web Producer</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade show active" id="wp">
+                <table class="table table-hover">
+                    <tbody>
+                        @foreach (var item in Model.Resources)
+                        {
+                            if (item.Role.Name.Contains("Producer"))
+                            {
+                                <tr class="table-secondary">
+                                    <th scope="row">@item.FirstName @item.LastName<br /><small>@item.Role.Name</small></th>
+                                    <th scope="row"><small>number of active projects</small></th>
+                                    <td>
+                                        <a class="btn btn-block btn-sm btn-info">Assign</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
