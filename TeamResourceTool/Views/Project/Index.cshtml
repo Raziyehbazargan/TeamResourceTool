@@ -1,0 +1,71 @@
+﻿@model IEnumerable<TeamResourceTool.Models.Project>
+
+@helper ProjectStatus(string statusName)
+{
+    if (statusName == "Active")
+    {
+        <span class="badge badge-success">@statusName</span>
+    }
+    else if (statusName == "Closed")
+    {
+         <span class="badge badge-Primary">@statusName</span>
+    }
+    else
+    {
+        <span class="badge badge-warning">@statusName</span>
+    }
+}
+
+<br/>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Team")">Team</a></li>
+    <li class="breadcrumb-item active">Project</li>
+</ol>
+<div class="row">
+    <div class="col-md-12">
+        <a href="@Url.Action("Add", "Project")" class="btn btn-success">Create New Project + </a>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                    <th colspan="9">Projects</th>
+                </tr>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">BuildStart</th>
+                    <th scope="col">Go Live</th>
+                    <th scope="col">Days to Deadline</th>
+                    <th scope="col">Event Dates</th>
+                    <th scope="col">Onsite Demand</th>
+                    <th scope="col">Event Location</th>
+                    <th scope="col">Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="table-Default">
+                            <td><a class="" href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"><b>@item.Name</b></a></td>
+                            <td>@String.Format("{0:MM/dd/yyyy}", item.BuildStart)</td>
+                            <td>@String.Format("{0:MM/dd/yyyy}", item.GoLive)</td>
+                            <td>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString())</td>
+                            <td>@item.EventDates</td>
+                            <td>@item.NeedOnsiteSupport</td>
+                            <td>@item.EventLocation</td>
+                            <td>@ProjectStatus(item.Status)</td>
+                            <td>@**@</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
