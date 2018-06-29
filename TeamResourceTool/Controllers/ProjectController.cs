@@ -24,7 +24,8 @@ namespace TeamResourceTool.Controllers
         // GET: Project
         public ActionResult Index()
         {
-            var projects = _context.Project.ToList();
+            var teamID = TempData["TeamID"];
+            var projects = _context.Project.Where(p => p.TeamId == (int)teamID).ToList();
             return View(projects);
         }
 
@@ -47,11 +48,17 @@ namespace TeamResourceTool.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            //var viewModel = new ProjectViewModel
-            //{
-            //    Teams = _context.Teams.ToList()
-            //};
+            var viewModel = new ProjectCreateViewModel
+            {
+                Teams = _context.Team.ToList()
+            };
 
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AssignResource()
+        {
             return View();
         }
 

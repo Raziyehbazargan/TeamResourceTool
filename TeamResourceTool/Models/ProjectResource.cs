@@ -24,5 +24,7 @@ namespace TeamResourceTool.Models
 
         public bool OnSite { get; set; }
 
+        public string Note { get; set; }
+
     }
 }

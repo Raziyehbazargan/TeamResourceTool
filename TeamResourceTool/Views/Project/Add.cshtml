@@ -1,0 +1,136 @@
+﻿@model TeamResourceTool.ViewModels.ProjectCreateViewModel
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add New Project</h2>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Team")">Team</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Project")">Project List</a></li>
+    <li class="breadcrumb-item">New Project</li>
+</ol>
+
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home">Create Project</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#profile">Assign Resources</a>
+    </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade show active" id="home">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <br />
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.Name, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Project.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Project.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.BuildStart, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Project.BuildStart, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Project.BuildStart, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.GoLive, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Project.GoLive, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Project.GoLive, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.EventDates, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Project.EventDates, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Project.EventDates, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.EventLocation, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Project.EventLocation, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Project.EventLocation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.TeamId, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.Project.TeamId, new SelectList(Model.Teams, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Project.TeamId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.Project.Status, new SelectList(Model.StatusList), htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Project.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.Description, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Project.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Project.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Project.NeedOnsiteSupport, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Project.NeedOnsiteSupport)
+                            @Html.ValidationMessageFor(model => model.Project.NeedOnsiteSupport, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="tab-pane fade" id="profile">
+        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+    </div>
+</div>
