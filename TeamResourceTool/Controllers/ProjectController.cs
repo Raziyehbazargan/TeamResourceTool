@@ -67,6 +67,20 @@ namespace TeamResourceTool.Controllers
             return View(viewModel);
         }
 
+
+        [HttpPost]
+        public ActionResult AssignResource(ProjectResource details)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.ProjectResource.Add(details);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(Project project)

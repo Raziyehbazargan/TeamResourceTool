@@ -205,6 +205,26 @@
     <Compile Include="Migrations\201806290405501_AddMoreFieldToProjectResources.Designer.cs">
       <DependentUpon>201806290405501_AddMoreFieldToProjectResources.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806292350139_MakeIDArimaryKeyForProjectResource.cs" />
+    <Compile Include="Migrations\201806292350139_MakeIDArimaryKeyForProjectResource.Designer.cs">
+      <DependentUpon>201806292350139_MakeIDArimaryKeyForProjectResource.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806300010440_setPKIdentityTrue.cs" />
+    <Compile Include="Migrations\201806300010440_setPKIdentityTrue.Designer.cs">
+      <DependentUpon>201806300010440_setPKIdentityTrue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806300020251_removeProjectResourcesTable.cs" />
+    <Compile Include="Migrations\201806300020251_removeProjectResourcesTable.Designer.cs">
+      <DependentUpon>201806300020251_removeProjectResourcesTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806300025272_removeProjectResourcesTable1.cs" />
+    <Compile Include="Migrations\201806300025272_removeProjectResourcesTable1.Designer.cs">
+      <DependentUpon>201806300025272_removeProjectResourcesTable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806300041191_removeIDFieldFromProjectResource.cs" />
+    <Compile Include="Migrations\201806300041191_removeIDFieldFromProjectResource.Designer.cs">
+      <DependentUpon>201806300041191_removeIDFieldFromProjectResource.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -306,6 +326,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806290405501_AddMoreFieldToProjectResources.resx">
       <DependentUpon>201806290405501_AddMoreFieldToProjectResources.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806292350139_MakeIDArimaryKeyForProjectResource.resx">
+      <DependentUpon>201806292350139_MakeIDArimaryKeyForProjectResource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806300010440_setPKIdentityTrue.resx">
+      <DependentUpon>201806300010440_setPKIdentityTrue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806300020251_removeProjectResourcesTable.resx">
+      <DependentUpon>201806300020251_removeProjectResourcesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806300025272_removeProjectResourcesTable1.resx">
+      <DependentUpon>201806300025272_removeProjectResourcesTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806300041191_removeIDFieldFromProjectResource.resx">
+      <DependentUpon>201806300041191_removeIDFieldFromProjectResource.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

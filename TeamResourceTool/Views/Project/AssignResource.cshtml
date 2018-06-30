@@ -33,7 +33,11 @@
                                     <th scope="row">@item.FirstName @item.LastName<br/><small>@item.Role.Name</small></th>
                                     <th scope="row"><small>number of active projects</small></th>
                                     <td>
-                                        <a class="btn btn-block btn-sm btn-info">Assign</a>
+                                        <form method="post" action="" autocomplete="off" novalidate="novalidate">
+                                            @Html.Hidden("ProjectID", 1)
+                                            @Html.Hidden("ResourceID", item.Id)
+                                            <button type="submit" class="btn btn-block btn-sm btn-info">Assign</button>
+                                        </form>
                                     </td>
                                 </tr>
                             }

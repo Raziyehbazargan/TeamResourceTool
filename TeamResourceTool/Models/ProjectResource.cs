@@ -9,8 +9,8 @@ namespace TeamResourceTool.Models
 {
     public class ProjectResource
     {
-        [Key, Column(Order = 0)]
-        public int ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         [Key, Column(Order = 1)]
         public int ProjectID { get; set; }
