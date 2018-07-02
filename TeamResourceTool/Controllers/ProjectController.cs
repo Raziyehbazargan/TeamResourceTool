@@ -24,8 +24,8 @@ namespace TeamResourceTool.Controllers
         // GET: Project
         public ActionResult Index()
         {
-            var teamID = TempData["TeamID"];
-            var projects = _context.Project.Where(p => p.TeamId == (int)teamID).ToList();
+            //var teamID = TempData["TeamID"];
+            var projects = _context.Project.ToList();
             return View(projects);
         }
 
@@ -53,22 +53,47 @@ namespace TeamResourceTool.Controllers
                 Teams = _context.Team.ToList()
             };
 
-            return View();
+            return View(viewModel);
         }
 
         [HttpGet]
-        public ActionResult AssignResource()
+        public ActionResult AssignResource(int id, int pId)
         {
+            var viewModel = new AssignResource
+            {
+                Resources = _context.Resource.Where(r => r.TeamId == id).ToList(),
+                Project = _context.Project.Where(p => p.Id == pId).FirstOrDefault()
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        public ActionResult AssignResource(ProjectResource details)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.ProjectResource.Add(details);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View();
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(Project project)
         {
-            //_context.Projects.Add(project);
-            //_context.SaveChanges();
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                _context.Project.Add(project);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+
         }
     }
 }
