@@ -31,21 +31,74 @@
                         indexLabelFontColor: "white",
                         showInLegend: "true",
                         dataPoints: @Html.Raw(ViewBag.LiveDataPoints),
+                    },
+                    {
+                        type: "stackedColumn100",
+                        legendText: "Hold / Pending",
+                        indexLabel: "{y}",
+                        indexLabelPlacement: "inside",
+                        indexLabelFontColor: "white",
+                        showInLegend: "true",
+                        dataPoints: @Html.Raw(ViewBag.PendingDataPoints),
                      }
                 ]
             });
             chart.render();
+
+            var chart1 = new CanvasJS.Chart("chartContainer1", {
+                title: {
+                    text: " "
+                },
+                data: [
+                    {
+                        type: "stackedColumn100",
+                        legendText: "Build",
+                        indexLabel: "{y}",
+                        indexLabelPlacement: "inside",
+                        indexLabelFontColor: "white",
+                        showInLegend: "true",
+                        dataPoints: @Html.Raw(ViewBag.BuildDataPoints),
+                     },
+                    {
+                        type: "stackedColumn100",
+                        legendText: "Live",
+                        indexLabel: "{y}",
+                        indexLabelPlacement: "inside",
+                        indexLabelFontColor: "white",
+                        showInLegend: "true",
+                        dataPoints: @Html.Raw(ViewBag.LiveDataPoints),
+                     }
+                ]
+            });
+            chart1.render();
         };
     </script>
 }
 <br/>
 <div class="row">
     <div class="col-md-6">
-        <div id="chartContainer" style="position: relative; height: 360px; width: 100%;"></div>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><b>Team Projects</b></div>
+            <div class="card-body text-center" style="color: #111;">
+                @*<h4 class="card-title"></h4>*@
+                <p class="card-text">
+                    <div id="chartContainer" style="position: relative; height: 360px; width: 100%;"></div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card bg-light mb-3">
+            <div class="card-header"><b>Team Projects</b></div>
+            <div class="card-body text-center" style="color: #111;">
+                @*<h4 class="card-title"></h4>*@
+                <p class="card-text">
+                    <div id="chartContainer1" style="position: relative; height: 360px; width: 100%;"></div>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
-<br/>
-<hr/>
 <div class="row">
     @foreach (var item in Model)
     {
