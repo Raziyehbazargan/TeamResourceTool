@@ -57,11 +57,12 @@ namespace TeamResourceTool.Controllers
         }
 
         [HttpGet]
-        public ActionResult AssignResource(int id)
+        public ActionResult AssignResource(int id, int pId)
         {
             var viewModel = new AssignResource
             {
-                Resources = _context.Resource.Where(r => r.TeamId == id).ToList()
+                Resources = _context.Resource.Where(r => r.TeamId == id).ToList(),
+                Project = _context.Project.Where(p => p.Id == pId).FirstOrDefault()
             };
 
             return View(viewModel);

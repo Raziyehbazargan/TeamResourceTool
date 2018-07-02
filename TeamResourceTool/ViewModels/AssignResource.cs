@@ -8,6 +8,7 @@ namespace TeamResourceTool.ViewModels
 {
     public class AssignResource
     {
+        public Project Project { get; set; }
         public IEnumerable<Resource> Resources { get; set; }
         public ProjectResource ProjectResource { get; set; }
     }
