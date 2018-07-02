@@ -3,16 +3,67 @@
 @{
     ViewBag.Title = "Index";
 }
+@section Scripts
+{
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript">
+
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "theme2",
+                animationEnabled: true,
+                title: {
+                    text: " "
+                },
+                axisX: {
+                    title: ""
+                },
+                axisY: {
+                    title: ""
+                },
+                data: [
+                    {
+                        type: "stackedColumn100",
+                        legendText: "Build",
+                        showInLegend: "true",
+                        indexLabel: "#percent %",
+                        indexLabelPlacement: "inside",
+                        indexLabelFontColor: "white",
+                        dataPoints: @Html.Raw(ViewBag.BuildDataPoints),
+                        //dataPoints: [
+                        //    { y: 40, label: "Cafeteria" },
+                        //    { y: 10, label: "Lounge" },
+                        //    { y: 72, label: "Games Room" }
+                        //],
+                     },
+                    {
+                        type: "stackedColumn100",
+                        legendText: "Live",
+                        showInLegend: "true",
+                        indexLabel: "#percent %",
+                        indexLabelPlacement: "inside",
+                        indexLabelFontColor: "white",
+                        dataPoints: @Html.Raw(ViewBag.LiveDataPoints),
+                        //dataPoints: [
+                        //    { y: 20, label: "Cafeteria" },
+                        //    { y: 14, label: "Lounge" },
+                        //    { y: 40, label: "Games Room" }
+                        //],
+                     }
+                ]
+            });
+            chart.render();
+        };
+    </script>
+}
 <br/>
-<div class="jumbotron">
-    <h1 class="display-3">Hello, world!</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </p>
+<div class="row">
+    <div class="col-md-6">
+        <div id="chartContainer" style="position: relative; height: 360px; width: 100%;"></div>
+    </div>
 </div>
+<br/>
+<hr/>
 <div class="row">
     @foreach (var item in Model)
     {

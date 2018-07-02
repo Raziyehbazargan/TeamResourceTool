@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,21 +25,20 @@ namespace TeamResourceTool.Controllers
         public ActionResult Index()
         {
             var teams = GetTeams();
+            List<DataPoint> buildProjects = new List<DataPoint>();
+            List<DataPoint> liveProjects = new List<DataPoint>();
+
+            foreach (var team in teams)
+            {
+                var buildProjectsCount = team.Projects.Where(p => p.GoLive > DateTime.Now).Count(p => p.Status == "Active");
+                var liveProjectsCount = team.Projects.Where(p => p.GoLive < DateTime.Now).Count(p => p.Status == "Active");
+                buildProjects.Add(new DataPoint(buildProjectsCount, team.Name));
+                liveProjects.Add(new DataPoint(liveProjectsCount, team.Name));
+            }
+
+            ViewBag.BuildDataPoints = JsonConvert.SerializeObject(buildProjects);
+            ViewBag.LiveDataPoints = JsonConvert.SerializeObject(liveProjects);
             return View(teams);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         // GET: Teams
