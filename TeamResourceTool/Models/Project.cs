@@ -23,8 +23,11 @@ namespace TeamResourceTool.Models
         [Display(Name = "Go Live Date")]
         public DateTime? GoLive { get; set; }
 
-        [Display(Name = "Event Dates")]
-        public string EventDates { get; set; }
+        [Display(Name = "Event Start Date")]
+        public DateTime? EventStartDate { get; set; }
+
+        [Display(Name = "Event End Date")]
+        public DateTime? EventEndDate { get; set; }
 
         public string Client { get; set; }
 
