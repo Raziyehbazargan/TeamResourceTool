@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TeamResourceTool.Models;
+using TeamResourceTool.ViewModels;
 
 namespace TeamResourceTool.Controllers
 {
@@ -23,7 +24,17 @@ namespace TeamResourceTool.Controllers
         public ActionResult Index(int id)
         {
             TempData["TeamID"] = id;
-            return View();
+            var currentDate = DateTime.Now;
+            var projects = _context.Project.Where(p => p.TeamId == id).ToList();
+
+            var viewModel = new TeamDashboardViewModel
+            {
+                BuildProjects = projects.Where(p => p.GoLive > currentDate).ToList(),
+                LiveProjects = projects.Where(p => currentDate >= p.GoLive && currentDate < p.EventStartDate).ToList(),
+                InProgressProjects = projects.Where(p => currentDate >= p.EventStartDate && currentDate <= p.EventEndDate).ToList()
+            };  
+
+            return View(viewModel);
         }
     }
 }

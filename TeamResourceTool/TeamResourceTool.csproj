@@ -245,6 +245,7 @@
     <Compile Include="ViewModels\AssignResource.cs" />
     <Compile Include="ViewModels\ProjectCreateViewModel.cs" />
     <Compile Include="ViewModels\ProjectResource.cs" />
+    <Compile Include="ViewModels\TeamDashboardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

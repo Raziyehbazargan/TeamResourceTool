@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeamResourceTool.Models.Project>
+﻿@model TeamResourceTool.ViewModels.TeamDashboardViewModel
 
 @helper ProjectStatus(string statusName)
 {
@@ -78,37 +78,26 @@
 <div class="row">
     <div class="col-md-8">
         <div class="card bg-light mb-3">
-            <div class="card-header"><b>Projects in Build Process</b></div>
-            <div class="card-body text-center" style="color: #111;">
+            <div class="card-header"><b>Events in Build Process</b></div>
+            <div class="card-body text-center" style="color: #111;padding:0">
                 <table class="table table-hover">
                     <thead>
-                        <tr class="table-primary">
-                            <th colspan="9">Projects</th>
-                        </tr>
                         <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">BuildStart</th>
-                            <th scope="col">Go Live</th>
+                            <th scope="col"></th>
                             <th scope="col">Days to Deadline</th>
-                            <th scope="col">Event Dates</th>
-                            <th scope="col">Onsite Demand</th>
                             <th scope="col">Event Location</th>
                             <th scope="col">Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model != null)
+                        @if (Model != null && Model.BuildProjects != null)
                         {
-                            foreach (var item in Model)
+                            foreach (var item in Model.BuildProjects)
                             {
                                 <tr class="table-Default">
                                     <td><a class="" href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"><b>@item.Name</b></a></td>
-                                    <td>@String.Format("{0:MM/dd/yyyy}", item.BuildStart)</td>
-                                    <td>@String.Format("{0:MM/dd/yyyy}", item.GoLive)</td>
                                     <td>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString())</td>
-                                    <td>@item.EventDates</td>
-                                    <td>@item.NeedOnsiteSupport</td>
                                     <td>@item.EventLocation</td>
                                     <td>@ProjectStatus(item.Status)</td>
                                     <td>@**@</td>
@@ -122,11 +111,45 @@
     </div>
     <div class="col-md-4">
         <div class="card bg-light mb-3">
-            <div class="card-header"><b>Live Projects</b></div>
+            <div class="card-header"><b>Live Events</b></div>
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
-                    Cras justo odio
-                </a>
+                @if (Model != null && Model.LiveProjects != null)
+                {
+                    foreach (var item in Model.LiveProjects)
+                    {
+                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 text-success">@item.Name</h5>
+                                <small>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString()) days ago</small>
+                            </div>
+                            <p class="mb-1">
+                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                            </p>
+                            <small>Donec id elit non mi porta.</small>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><b>Events Happening (Onsite)</b></div>
+            <div class="list-group">
+                @if (Model != null && Model.InProgressProjects != null)
+                {
+                    foreach (var item in Model.InProgressProjects)
+                    {
+                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"  class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 text-danger">@item.Name</h5>
+                                <small>@item.EventLocation</small>
+                            </div>
+                            <p class="mb-1">
+                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                            </p>
+                            <small>Donec id elit non mi porta.</small>
+                        </a>
+                    }
+                }
             </div>
         </div>
     </div>

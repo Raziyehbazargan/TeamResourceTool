@@ -50,9 +50,9 @@
         <br />
 
         <div style="margin-left:20px;" class="">
-            <p><b>Go Live Date:</b> @Model.Project.GoLive</p>
-            <p><b>Event Date:</b> @Model.Project.EventDates</p>
-            <p><b>Duration:</b> @Model.Project.BuildStart - @Model.Project.GoLive</p>
+            <p><b>Go Live Date:</b> @string.Format("{0:MM/dd/yyyy}", Model.Project.GoLive)</p>
+            <p><b>Event Date:</b> @String.Format("{0:MM/dd/yyyy}", Model.Project.EventStartDate) - @String.Format("{0:MM/dd/yyyy}", Model.Project.EventEndDate)</p>
+            <p><b>Duration:</b> @(Model.Project.EventEndDate - Model.Project.EventStartDate)</p>
             <p><b>Client:</b> @Model.Project.Client</p>
             <p><b>Project Resources:</b> <span class="badge badge-success">@Model.Resources.Count()</span></p>
             <div class="row">
