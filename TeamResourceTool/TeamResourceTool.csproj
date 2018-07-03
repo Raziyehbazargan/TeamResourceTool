@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201806300041191_removeIDFieldFromProjectResource.Designer.cs">
       <DependentUpon>201806300041191_removeIDFieldFromProjectResource.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807031800452_addEventStartandEndDate.cs" />
+    <Compile Include="Migrations\201807031800452_addEventStartandEndDate.Designer.cs">
+      <DependentUpon>201807031800452_addEventStartandEndDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Chart\DataPoint.cs" />
@@ -341,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806300041191_removeIDFieldFromProjectResource.resx">
       <DependentUpon>201806300041191_removeIDFieldFromProjectResource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807031800452_addEventStartandEndDate.resx">
+      <DependentUpon>201807031800452_addEventStartandEndDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
