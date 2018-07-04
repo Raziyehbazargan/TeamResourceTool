@@ -230,9 +230,14 @@
     <Compile Include="Migrations\201807031800452_addEventStartandEndDate.Designer.cs">
       <DependentUpon>201807031800452_addEventStartandEndDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807032205544_addActiveFieldToResource.cs" />
+    <Compile Include="Migrations\201807032205544_addActiveFieldToResource.Designer.cs">
+      <DependentUpon>201807032205544_addActiveFieldToResource.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Chart\DataPoint.cs" />
+    <Compile Include="Models\Chart\TeamProjectsDataPoint.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
@@ -244,7 +249,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AssignResource.cs" />
     <Compile Include="ViewModels\ProjectCreateViewModel.cs" />
-    <Compile Include="ViewModels\ProjectResource.cs" />
+    <Compile Include="ViewModels\ProjectDetailViewModel.cs" />
     <Compile Include="ViewModels\TeamDashboardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807031800452_addEventStartandEndDate.resx">
       <DependentUpon>201807031800452_addEventStartandEndDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807032205544_addActiveFieldToResource.resx">
+      <DependentUpon>201807032205544_addActiveFieldToResource.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

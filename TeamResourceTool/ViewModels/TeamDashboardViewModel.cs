@@ -13,5 +13,11 @@ namespace TeamResourceTool.ViewModels
         public IEnumerable<Project> LiveProjects { get; set; }
 
         public IEnumerable<Project> InProgressProjects { get; set; }
+
+        public IEnumerable<Resource> Resources { get; set; }
+
+        public IEnumerable<Resource> ProjectAssignedResources { get; set; }
+
+        public List<Resource> OnsiteResources { get; set; }
     }
 }

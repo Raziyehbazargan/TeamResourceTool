@@ -18,6 +18,9 @@ namespace TeamResourceTool.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Required]
+        [Display(Name = "Active")]
+        public bool IsActive { get; set; }
 
         [Display(Name = "Picture")]
         public byte[] ImageFile { get; set; }

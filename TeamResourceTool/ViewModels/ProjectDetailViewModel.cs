@@ -6,7 +6,7 @@ using TeamResourceTool.Models;
 
 namespace TeamResourceTool.ViewModels
 {
-    public class ProjectDetails
+    public class ProjectDetailViewModel
     {
         public Project Project { get; set; }
 
