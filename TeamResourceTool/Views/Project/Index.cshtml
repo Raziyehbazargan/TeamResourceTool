@@ -57,7 +57,7 @@
                             <td>@String.Format("{0:MM/dd/yyyy}", item.BuildStart)</td>
                             <td>@String.Format("{0:MM/dd/yyyy}", item.GoLive)</td>
                             <td>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString())</td>
-                            <td>@item.EventDates</td>
+                            <td>@item.EventStartDate</td>
                             <td>@item.NeedOnsiteSupport</td>
                             <td>@item.EventLocation</td>
                             <td>@ProjectStatus(item.Status)</td>

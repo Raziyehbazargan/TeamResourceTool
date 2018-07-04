@@ -1,5 +1,31 @@
-﻿@model IEnumerable<TeamResourceTool.Models.Project>
+﻿@model TeamResourceTool.ViewModels.TeamDashboardViewModel
+@section Scripts
+{
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript">
 
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: ""
+                },
+               legend: {
+			maxWidth: 300,
+			itemWidth: 120
+		},
+		data: [
+		{
+			type: "pie",
+			showInLegend: true,
+			legendText: "{indexLabel}",
+			dataPoints: @Html.Raw(ViewBag.AllProjectsDataPoints),
+		}
+		]
+	    });
+            chart.render();
+        };
+    </script>
+}
 @helper ProjectStatus(string statusName)
 {
     if (statusName == "Active")
@@ -78,40 +104,43 @@
 <div class="row">
     <div class="col-md-8">
         <div class="card bg-light mb-3">
-            <div class="card-header"><b>Projects in Build Process</b></div>
-            <div class="card-body text-center" style="color: #111;">
+            <div class="card-header">
+                <div class="pull-left">
+                    <b>Events in Build Process</b>
+                </div>
+                <div class="pull-right">
+                    <a href="@Url.Action("Add", "Project")" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Event</a>
+                </div>
+            </div>
+            <div class="card-body text-center" style="padding:0">
                 <table class="table table-hover">
                     <thead>
-                        <tr class="table-primary">
-                            <th colspan="9">Projects</th>
-                        </tr>
                         <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">BuildStart</th>
-                            <th scope="col">Go Live</th>
+                            <th scope="col"></th>
                             <th scope="col">Days to Deadline</th>
-                            <th scope="col">Event Dates</th>
-                            <th scope="col">Onsite Demand</th>
                             <th scope="col">Event Location</th>
                             <th scope="col">Status</th>
-                            <th></th>
+                            <th>Team Resources</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model != null)
+                        @if (Model != null && Model.BuildProjects != null)
                         {
-                            foreach (var item in Model)
+                            foreach (var item in Model.BuildProjects)
                             {
-                                <tr class="table-Default">
+                                <tr class="table-light">
                                     <td><a class="" href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"><b>@item.Name</b></a></td>
-                                    <td>@String.Format("{0:MM/dd/yyyy}", item.BuildStart)</td>
-                                    <td>@String.Format("{0:MM/dd/yyyy}", item.GoLive)</td>
                                     <td>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString())</td>
-                                    <td>@item.EventDates</td>
-                                    <td>@item.NeedOnsiteSupport</td>
                                     <td>@item.EventLocation</td>
                                     <td>@ProjectStatus(item.Status)</td>
-                                    <td>@**@</td>
+                                    <td>
+                                        <p>
+                                            @foreach (var res in Model.ProjectAssignedResources)
+                                            {
+                                                <small>@res.FirstName @res.LastName</small><br />
+                                            }
+                                        </p>
+                                    </td>
                                 </tr>
                             }
                         }
@@ -119,15 +148,79 @@
                 </table>
             </div>
         </div>
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                <div class="pull-left">
+                    <b>Team Resources</b>
+                </div>
+                <div class="pull-right">
+                    <a href="@Url.Action("Add", "Project")" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> New</a>
+                </div>
+            </div>
+            <div class="card-body text-center" style="color: #111;padding:0">
+                <div class="list-group col-xs-12" style="max-height: 200px;margin-bottom: 10px;overflow-y:scroll;-webkit-overflow-scrolling: touch;">
+                    @if (Model != null && Model.Resources != null)
+                    {
+                        foreach (var item in Model.Resources)
+                        {
+                            <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="col-xs-6 list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1 text-danger">@item.FirstName @item.LastName</h6>
+                                    <small>@item.Role.Name</small>
+                                </div>
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-md-4">
         <div class="card bg-light mb-3">
-            <div class="card-header"><b>Live Projects</b></div>
+            <div class="card-header"><b>Live Events</b></div>
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
-                    Cras justo odio
-                </a>
+                @if (Model != null && Model.LiveProjects != null)
+                {
+                    foreach (var item in Model.LiveProjects)
+                    {
+                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 text-success">@item.Name</h6>
+                                <small>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString()) days ago</small>
+                            </div>
+                        </a>
+                    }
+                }
             </div>
         </div>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><b>Events Happening (Onsite)</b></div>
+            <div class="list-group">
+                @if (Model != null && Model.InProgressProjects != null)
+                {
+                    foreach (var item in Model.InProgressProjects)
+                    {
+                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 text-danger">@item.Name</h6>
+                                <small>@item.EventLocation</small>
+                            </div>
+
+                            <small><b>Event Dates:</b> @string.Format("{0:MM/dd/yyyy}", item.EventStartDate) - @string.Format("{0:MM/dd/yyyy}", item.EventEndDate)</small>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+        <div id="chartContainer" style="position: relative; height: 300px; width: 100%;"></div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-8">
+
+    </div>
+    <div class="col-md-4">
+
     </div>
 </div>

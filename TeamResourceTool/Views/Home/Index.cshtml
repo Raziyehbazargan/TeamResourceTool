@@ -77,7 +77,7 @@
 <br/>
 <div class="row">
     <div class="col-md-6">
-        <div class="card bg-light mb-3">
+        <div class="card text-white bg-primary mb-3">
             <div class="card-header"><b>Team Projects</b></div>
             <div class="card-body text-center" style="color: #111;">
                 @*<h4 class="card-title"></h4>*@
@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="card bg-light mb-3">
+        <div class="card text-white bg-primary mb-3">
             <div class="card-header"><b>Team Projects</b></div>
             <div class="card-body text-center" style="color: #111;">
                 @*<h4 class="card-title"></h4>*@
@@ -103,9 +103,9 @@
     @foreach (var item in Model)
     {
         <div class="col-md-4">
-            <div class="card text-white bg-secondary mb-3">
+            <div class="card text-white bg-primary mb-3">
                 <div class="card-header"></div>
-                <div class="card-body text-center" style="color: #111;">
+                <div class="card-body text-center" style="color: #fff;">
                     <h4 class="card-title">@item.Name</h4>
                     <p class="card-text">
                         @Html.RouteLink(@item.Name, new { action = "Index", controller = "Team", id = item.Id })

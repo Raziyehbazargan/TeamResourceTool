@@ -35,7 +35,7 @@ namespace TeamResourceTool.Controllers
             TempData["ProjectID"] = projectID;
             TempData["TeamID"] = teamID;
 
-            var viewModel = new ProjectDetails
+            var viewModel = new ProjectDetailViewModel
             {
                 Project = _context.Project.Where(p => p.Id == projectID).FirstOrDefault(),
                 Resources = _context.Project.Where(p => p.Id == projectID).SelectMany(r => r.ProjectResource.Select(c => c.Resource)).ToList(),
