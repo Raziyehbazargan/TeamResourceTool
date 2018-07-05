@@ -1,4 +1,8 @@
-﻿@model TeamResourceTool.ViewModels.TeamDashboardViewModel
+﻿@{
+    Layout = "~/Views/Shared/_Layout_dashboard.cshtml";
+}
+
+@model TeamResourceTool.ViewModels.TeamDashboardViewModel
 @section Scripts
 {
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -24,6 +28,21 @@
 	    });
             chart.render();
         };
+
+        var chart1 = new CanvasJS.Chart("chartContainer1", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Number of Events during the year"
+            },
+            data: [
+                {
+                    type: "column",
+                    dataPoints:  @Html.Raw(ViewBag.AllProjectInYearDataPoints),
+                }
+            ]
+        });
+        chart1.render();
     </script>
 }
 @helper ProjectStatus(string statusName)
@@ -56,53 +75,44 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-9">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">
-                    <i class="fa fa-tasks" aria-hidden="true"></i> Projects
-                </h4>
-                <h6 class="card-subtitle mb-2 text-muted text-center"></h6>
-                <p class="card-text"></p>
-            </div>
-            <div class="card-footer text-muted text-right">
-                <a href="@Url.Action("Index","Project")" class="card-link">View Details</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                    Resources
-                </h4>
-                <h6 class="card-subtitle mb-2 text-muted text-center"></h6>
-                <p class="card-text"></p>
+                <div id="chartContainer1" style="position: relative; height: 200px; width: 100%;"></div>
             </div>
             <div class="card-footer text-muted text-right">
                 <a href="#" class="card-link">View Details</a>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">
-                    <i class="fa fa-list-alt" aria-hidden="true"></i> Sprint Planning
-                </h4>
-                <h6 class="card-subtitle mb-2 text-muted text-center"></h6>
-                <p class="card-text"></p>
+                <div id="chartContainer" style="position: relative; height: 200px; width: 100%;"></div>
             </div>
             <div class="card-footer text-muted text-right">
-                <a href="@Url.Action("Index","Project", new { id = Request.Url.Segments.Last() })" class="card-link">View Details</a>
+                <a href="#" class="card-link">View Details</a>
             </div>
         </div>
     </div>
+    @*<div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i> Sprint Planning
+                    </h4>
+                    <h6 class="card-subtitle mb-2 text-muted text-center"></h6>
+                    <p class="card-text"></p>
+                </div>
+                <div class="card-footer text-muted text-right">
+                    <a href="@Url.Action("Index","Project", new { id = Request.Url.Segments.Last() })" class="card-link">View Details</a>
+                </div>
+            </div>
+        </div>*@
 </div>
 <br />
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="card bg-light mb-3">
             <div class="card-header">
                 <div class="pull-left">
@@ -174,30 +184,28 @@
                     {
                         foreach (var item in Model.Resources)
                         {
-                    <li class="media">
-                        <div class="media-body text-left" style="padding-left:10px; padding-top:5px; border-bottom: 1px solid #bbb9b9">
-                            <h6 class="mt-0 mb-1">
-                                @item.FirstName @item.LastName
-                            </h6>
-                            <small>@item.Role.Name</small>
-                        </div>
-                        @{
-                            var imgsrc = "https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png";
-                            if (item.ImageFile != null)
-                            {
-                                var base64 = Convert.ToBase64String(item.ImageFile);
-                                imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
-                            }
-                            <img style="width: 40px;" src="@imgsrc" class="ml-3 img-responsive img-thumbnail img-circle" />
-                        }
-                    </li>
+                            <li class="media">
+                                <div class="media-body text-left" style="padding-left:10px; padding-top:5px; border-bottom: 1px solid #bbb9b9">
+                                    <h6 class="mt-0 mb-1">
+                                        @item.FirstName @item.LastName
+                                    </h6>
+                                    <small>@item.Role.Name</small>
+                                </div>
+                                @{
+                                    var imgsrc = "https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png";
+                                    if (item.ImageFile != null)
+                                    {
+                                        var base64 = Convert.ToBase64String(item.ImageFile);
+                                        imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                    }
+                                    <img style="width: 40px;" src="@imgsrc" class="ml-3 img-responsive img-thumbnail img-circle" />
+                                }
+                            </li>
                         }
                     }
                 </ul>
             </div>
         </div>
-        <div id="chartContainer" style="position: relative; height: 300px; width: 100%;"></div>
-
     </div>
     <div class="col-md-4">
         <div class="card bg-light mb-3">
@@ -262,7 +270,59 @@
 <br />
 <div class="row">
     <div class="col-md-8">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                <div class="pull-left">
+                    <b>Events in Build Process</b>
+                </div>
+                <div class="pull-right">
+                    <a href="@Url.Action("Add", "Project")" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Event</a>
+                </div>
+            </div>
+            <div class="card-body text-center" style="padding:0">
+                <table class="table table-hover" style="margin-bottom:0px !important;">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Days to Deadline</th>
+                            <th scope="col">Event Location</th>
+                            <th scope="col">Status</th>
+                            <th>Team Resources</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.BuildProjects != null)
+                        {
+                            foreach (var proj in Model.BuildProjects)
+                            {
+                                <tr class="table-light">
+                                    <td><a class="" href="@Url.Action("Details", "Project", new { teamID = proj.TeamId, projectId = proj.Id })"><b>@proj.Name</b></a></td>
+                                    <td>@(DateTime.Now.Subtract((DateTime)proj.GoLive).Days.ToString())</td>
+                                    <td>@proj.EventLocation</td>
+                                    <td>@ProjectStatus(proj.Status)</td>
+                                    <td>
+                                        <p>
+                                            @if (proj.Resources.Any())
+                                            {
+                                                foreach (var res in proj.Resources)
+                                                {
+                                                    <small>@res.FirstName @res.LastName</small><br />
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("AssignResource", "Project", new { id = proj.TeamId, pId = proj.Id })" class="btn btn-sm btn-warning">Assign</a>
+                                            }
 
+                                        </p>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="col-md-4">
 

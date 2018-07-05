@@ -68,10 +68,70 @@
                                 <td>@String.Format("{0:MM/dd/yyyy}", item.EventStartDate) - @String.Format("{0:MM/dd/yyyy}", item.EventStartDate)</td>
                                 <td>@(item.NeedOnsiteSupport == true? "Yes": "No")</td>
                                 <td>@item.EventLocation</td>
-                                <td>@item.EventLocation</td>
-                                <td>@item.EventLocation</td>
-                                <td>@item.EventLocation</td>
-                                <td>@item.EventLocation</td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("CS"))
+                                            {
+                                                @res.FirstName  @res.LastName <br />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("TSS"))
+                                            {
+                                                @res.FirstName  @res.LastName <br />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("Dev"))
+                                            {
+                                                @res.FirstName  @res.LastName <br/>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("Producer"))
+                                            {
+                                                @res.FirstName  @res.LastName <br />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
                                 <td>@ProjectStatus(item.Status)</td>
                                 <td>@**@</td>
                             </tr>

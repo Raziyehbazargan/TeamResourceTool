@@ -26,6 +26,12 @@ namespace TeamResourceTool.Controllers
         {
             TempData["TeamID"] = id;
             var projects = _context.Project.Where(p => p.TeamId == id).ToList();
+            var projectGroups = projects.OrderBy(p => p.Id).ToLookup(p => p.Id);
+            foreach (var item in projects)
+            {
+                item.Resources = projectGroups[item.Id].SelectMany(r => r.ProjectResource.Where(pr => pr.OnSite).Select(c => c.Resource)).ToList();
+            }
+
             return View(projects);
         }
 

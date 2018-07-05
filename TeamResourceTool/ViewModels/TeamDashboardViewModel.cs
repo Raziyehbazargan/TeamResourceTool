@@ -16,8 +16,6 @@ namespace TeamResourceTool.ViewModels
 
         public IEnumerable<Resource> Resources { get; set; }
 
-        public IEnumerable<Resource> ProjectAssignedResources { get; set; }
-
         public List<Resource> OnsiteResources { get; set; }
     }
 }
