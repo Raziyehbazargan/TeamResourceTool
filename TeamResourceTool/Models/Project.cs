@@ -46,6 +46,7 @@ namespace TeamResourceTool.Models
         [Display(Name = "General Info")]
         public string Description { get; set; }
 
+        public IEnumerable<Resource> Resources { get; set; }
 
         //Team to projects : one to many Relationship mapping
         [Display(Name = "Team")]

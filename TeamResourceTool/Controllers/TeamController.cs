@@ -28,17 +28,15 @@ namespace TeamResourceTool.Controllers
         {
             TempData["TeamID"] = id;
             var currentDate = DateTime.Now;
-            var projects = _context.Project.Where(p => p.TeamId == id).ToList();
+            var projects = _context.Project.Where(p => p.TeamId == id).OrderBy(p => p.Id).ThenBy(p => p.Name).ToList();
 
             var viewModel = new TeamDashboardViewModel
             {
-                BuildProjects = projects.Where(p => p.GoLive > currentDate).ToList(),
+                BuildProjects = GetProjectResources(projects),
                 LiveProjects = projects.Where(p => currentDate >= p.GoLive && currentDate < p.EventStartDate).ToList(),
                 InProgressProjects = projects.Where(p => currentDate >= p.EventStartDate && currentDate <= p.EventEndDate).ToList(),
                 Resources = _context.Resource.Where(r => r.TeamId == id).OrderBy(r =>r.Role.Name).ToList()
             };
-
-            viewModel.ProjectAssignedResources = GetProjectResources(viewModel.BuildProjects);
 
             ProjectsChart(projects);
 
@@ -50,18 +48,19 @@ namespace TeamResourceTool.Controllers
         public ActionResult GetResources(int id)
         {
             var resources = _context.Resource.Where(r => r.TeamId == id).Include(r => r.Role).ToList();
-            return View(resources);
+            return View("Resources",resources);
         }
 
-        private IEnumerable<Resource> GetProjectResources(IEnumerable<Project> projects)
+        private IEnumerable<Project> GetProjectResources(IEnumerable<Project> projects)
         {
-            var resources = new List<Resource>();
-            foreach (var proj in projects)
-            {
-                resources.AddRange(projects.Where(p => p.Id == proj.Id).SelectMany(r => r.ProjectResource.Select(c => c.Resource)).ToList());
-            }
+            var buildProjects = projects.Where(p => p.GoLive > DateTime.Now).ToList();
 
-            return resources;
+            var resourcesList = buildProjects.ToLookup(p => p.Id);
+            foreach (var item in buildProjects)
+            {
+                item.Resources = resourcesList[item.Id].SelectMany(r => r.ProjectResource.Select(c => c.Resource)).ToList();
+            }
+            return buildProjects;
         }
 
         private void ProjectsChart(IEnumerable<Project> projects)

@@ -135,9 +135,9 @@
                                     <td>@ProjectStatus(proj.Status)</td>
                                     <td>
                                         <p>
-                                            @if (Model.ProjectAssignedResources.Any())
+                                            @if (proj.Resources.Any())
                                             {
-                                                foreach (var res in Model.ProjectAssignedResources)
+                                                foreach (var res in proj.Resources)
                                                 {
                                                     <small>@res.FirstName @res.LastName</small><br />
                                                 }
@@ -169,20 +169,31 @@
                 </div>
             </div>
             <div class="card-body text-center" style="color: #111;padding:0">
-                <div class="list-group col-xs-12" style="max-height: 200px;margin-bottom: 10px;overflow-y:scroll;-webkit-overflow-scrolling: touch;">
+                <ul class="list-unstyled" style="max-height: 200px;margin-bottom: 10px;overflow-y:scroll;-webkit-overflow-scrolling: touch;">
                     @if (Model != null && Model.Resources != null)
                     {
                         foreach (var item in Model.Resources)
                         {
-                            <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="col-xs-6 list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1 text-danger">@item.FirstName @item.LastName</h6>
-                                    <small>@item.Role.Name</small>
-                                </div>
-                            </a>
+                    <li class="media">
+                        <div class="media-body text-left" style="padding-left:10px; padding-top:5px; border-bottom: 1px solid #bbb9b9">
+                            <h6 class="mt-0 mb-1">
+                                @item.FirstName @item.LastName
+                            </h6>
+                            <small>@item.Role.Name</small>
+                        </div>
+                        @{
+                            var imgsrc = "https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png";
+                            if (item.ImageFile != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.ImageFile);
+                                imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                            }
+                            <img style="width: 40px;" src="@imgsrc" class="ml-3 img-responsive img-thumbnail img-circle" />
+                        }
+                    </li>
                         }
                     }
-                </div>
+                </ul>
             </div>
         </div>
         <div id="chartContainer" style="position: relative; height: 300px; width: 100%;"></div>
