@@ -313,6 +313,8 @@
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\AssignResource.cshtml" />
     <Content Include="Views\Project\Add.cshtml" />
+    <Content Include="Views\Team\Resources.cshtml" />
+    <Content Include="Views\Shared\_Layout_dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

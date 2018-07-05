@@ -1,4 +1,8 @@
-﻿@model IEnumerable<TeamResourceTool.Models.Project>
+﻿@{ 
+    Layout = "~/Views/Shared/_Layout_dashboard.cshtml";
+}
+
+@model IEnumerable<TeamResourceTool.Models.Project>
 
 @helper ProjectStatus(string statusName)
 {
@@ -8,7 +12,7 @@
     }
     else if (statusName == "Closed")
     {
-         <span class="badge badge-Primary">@statusName</span>
+        <span class="badge badge-danger">@statusName</span>
     }
     else
     {
@@ -16,7 +20,7 @@
     }
 }
 
-<br/>
+<br />
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
     <li class="breadcrumb-item"><a href="@Url.Action("Index","Team")">Team</a></li>
@@ -33,16 +37,19 @@
         <table class="table table-hover">
             <thead>
                 <tr class="table-primary">
-                    <th colspan="9">Projects</th>
+                    <th colspan="12">Active Projects</th>
                 </tr>
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">BuildStart</th>
                     <th scope="col">Go Live</th>
-                    <th scope="col">Days to Deadline</th>
-                    <th scope="col">Event Dates</th>
-                    <th scope="col">Onsite Demand</th>
-                    <th scope="col">Event Location</th>
+                    <th scope="col">Event Date</th>
+                    <th scope="col">Onsite</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">CS PM</th>
+                    <th scope="col">TSS PM</th>
+                    <th scope="col">Dev</th>
+                    <th scope="col">WP</th>
                     <th scope="col">Status</th>
                     <th></th>
                 </tr>
@@ -52,17 +59,121 @@
                 {
                     foreach (var item in Model)
                     {
-                        <tr class="table-Default">
-                            <td><a class="" href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"><b>@item.Name</b></a></td>
-                            <td>@String.Format("{0:MM/dd/yyyy}", item.BuildStart)</td>
-                            <td>@String.Format("{0:MM/dd/yyyy}", item.GoLive)</td>
-                            <td>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString())</td>
-                            <td>@item.EventStartDate</td>
-                            <td>@item.NeedOnsiteSupport</td>
-                            <td>@item.EventLocation</td>
-                            <td>@ProjectStatus(item.Status)</td>
-                            <td>@**@</td>
-                        </tr>
+                        if (item.Status == "Active")
+                        {
+                            <tr class="table-Default">
+                                <td><a class="" href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"><b>@item.Name</b></a></td>
+                                <td>@String.Format("{0:MM/dd/yyyy}", item.BuildStart)</td>
+                                <td>@String.Format("{0:MM/dd/yyyy}", item.GoLive)</td>
+                                <td>@String.Format("{0:MM/dd/yyyy}", item.EventStartDate) - @String.Format("{0:MM/dd/yyyy}", item.EventStartDate)</td>
+                                <td>@(item.NeedOnsiteSupport == true? "Yes": "No")</td>
+                                <td>@item.EventLocation</td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("CS"))
+                                            {
+                                                @res.FirstName  @res.LastName <br />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("TSS"))
+                                            {
+                                                @res.FirstName  @res.LastName <br />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("Dev"))
+                                            {
+                                                @res.FirstName  @res.LastName <br/>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Resources.Any())
+                                    {
+                                        foreach (var res in item.Resources)
+                                        {
+                                            if (res.Role.Name.Contains("Producer"))
+                                            {
+                                                @res.FirstName  @res.LastName <br />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @: None
+                                    }
+                                </td>
+                                <td>@ProjectStatus(item.Status)</td>
+                                <td>@**@</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                    <th colspan="12">Closed / Pending Projects</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        if (item.Status != "Active")
+                        {
+                            <tr class="table-Default">
+                                <td><a class="" href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"><b>@item.Name</b></a></td>
+                                <td>@String.Format("{0:MM/dd/yyyy}", item.BuildStart)</td>
+                                <td>@String.Format("{0:MM/dd/yyyy}", item.GoLive)</td>
+                                <td>@String.Format("{0:MM/dd/yyyy}", item.EventStartDate) - @String.Format("{0:MM/dd/yyyy}", item.EventStartDate)</td>
+                                <td>@(item.NeedOnsiteSupport == true ? "Yes" : "No")</td>
+                                <td>@item.EventLocation</td>
+                                <td>@item.EventLocation</td>
+                                <td>@item.EventLocation</td>
+                                <td>@item.EventLocation</td>
+                                <td>@item.EventLocation</td>
+                                <td>@ProjectStatus(item.Status)</td>
+                                <td>@**@</td>
+                            </tr>
+                        }
                     }
                 }
             </tbody>
