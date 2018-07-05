@@ -14,6 +14,8 @@ namespace TeamResourceTool.ViewModels
 
         public IEnumerable<Project> InProgressProjects { get; set; }
 
+        public IEnumerable<Project> ClosedProjects { get; set; }
+
         public IEnumerable<Resource> Resources { get; set; }
 
         public List<Resource> OnsiteResources { get; set; }

@@ -28,30 +28,34 @@ namespace TeamResourceTool.Controllers
             _context.Dispose();
         }
 
-        private void CloseProject(IEnumerable<Project> projects)
+        private IEnumerable<Project> CloseProject(IEnumerable<Project> projects)
         {
+            var closedProjects = new List<Project>();
             foreach (var item in projects)
             {
                 if (item.EventEndDate < currentDate)
                 {
                     item.Status = "Closed";
+                    if(item.EventEndDate < currentDate.AddDays(-14))
+                    {
+                        closedProjects.Add(item);
+                    }      
                 }
             }
+            return closedProjects;
         }
         // GET: Team
         public ActionResult Index(int id)
         {
             TempData["TeamID"] = id;
-            var projects = _context.Project.Where(p => p.TeamId == id).OrderBy(p => p.Id).ThenBy(p => p.Name).ToList();
-
-            //change status of all events that their end date has passes
-            CloseProject(projects);
+            var projects = _context.Project.Where(p => p.TeamId == id).OrderBy(p => p.Id).ThenBy(p => p.Name).ToList();            
 
             var viewModel = new TeamDashboardViewModel
             {
                 BuildProjects = GetProjectResources(projects),
                 LiveProjects = projects.Where(p => currentDate >= p.GoLive && currentDate < p.EventStartDate).ToList(),
                 InProgressProjects = projects.Where(p => currentDate >= p.EventStartDate && currentDate <= p.EventEndDate).ToList(),
+                ClosedProjects = CloseProject(projects),
                 Resources = _context.Resource.Where(r => r.TeamId == id).OrderBy(r => r.Role.Name).ToList()
             };
 
