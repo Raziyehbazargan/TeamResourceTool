@@ -89,13 +89,13 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">
-                    <i class="fa fa-list-alt" aria-hidden="true"></i> Summary
+                    <i class="fa fa-list-alt" aria-hidden="true"></i> Sprint Planning
                 </h4>
                 <h6 class="card-subtitle mb-2 text-muted text-center"></h6>
                 <p class="card-text"></p>
             </div>
             <div class="card-footer text-muted text-right">
-                <a href="#" class="card-link">View Details</a>
+                <a href="@Url.Action("Index","Project", new { id = Request.Url.Segments.Last() })" class="card-link">View Details</a>
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div class="card-body text-center" style="padding:0">
-                <table class="table table-hover">
+                <table class="table table-hover" style="margin-bottom:0px !important;">
                     <thead>
                         <tr>
                             <th scope="col"></th>
@@ -126,19 +126,27 @@
                     <tbody>
                         @if (Model != null && Model.BuildProjects != null)
                         {
-                            foreach (var item in Model.BuildProjects)
+                            foreach (var proj in Model.BuildProjects)
                             {
                                 <tr class="table-light">
-                                    <td><a class="" href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })"><b>@item.Name</b></a></td>
-                                    <td>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString())</td>
-                                    <td>@item.EventLocation</td>
-                                    <td>@ProjectStatus(item.Status)</td>
+                                    <td><a class="" href="@Url.Action("Details", "Project", new { teamID = proj.TeamId, projectId = proj.Id })"><b>@proj.Name</b></a></td>
+                                    <td>@(DateTime.Now.Subtract((DateTime)proj.GoLive).Days.ToString())</td>
+                                    <td>@proj.EventLocation</td>
+                                    <td>@ProjectStatus(proj.Status)</td>
                                     <td>
                                         <p>
-                                            @foreach (var res in Model.ProjectAssignedResources)
+                                            @if (Model.ProjectAssignedResources.Any())
                                             {
-                                                <small>@res.FirstName @res.LastName</small><br />
+                                                foreach (var res in Model.ProjectAssignedResources)
+                                                {
+                                                    <small>@res.FirstName @res.LastName</small><br />
+                                                }
                                             }
+                                            else
+                                            {
+                                                <a href="@Url.Action("AssignResource", "Project", new { id = proj.TeamId, pId = proj.Id })" class="btn btn-sm btn-warning">Assign</a>
+                                            }
+
                                         </p>
                                     </td>
                                 </tr>
@@ -148,6 +156,8 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div class="col-md-4" style="height: 200px;">
         <div class="card bg-light mb-3">
             <div class="card-header">
                 <div class="pull-left">
@@ -155,6 +165,7 @@
                 </div>
                 <div class="pull-right">
                     <a href="@Url.Action("Add", "Project")" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> New</a>
+                    <a href="@Url.Action("GetResources", "Team", new { id = Request.Url.Segments.Last() })" class="btn btn-sm btn-primary"><i class="fa fa-list-alt" aria-hidden="true"></i> View All</a>
                 </div>
             </div>
             <div class="card-body text-center" style="color: #111;padding:0">
@@ -174,6 +185,8 @@
                 </div>
             </div>
         </div>
+        <div id="chartContainer" style="position: relative; height: 300px; width: 100%;"></div>
+
     </div>
     <div class="col-md-4">
         <div class="card bg-light mb-3">
@@ -188,11 +201,23 @@
                                 <h6 class="mb-1 text-success">@item.Name</h6>
                                 <small>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString()) days ago</small>
                             </div>
+                            <small><b>Live Date: @String.Format("{0:MM/dd/yyyy}", item.GoLive)</b></small>
                         </a>
                     }
                 }
+                else
+                {
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-success">There is no Live event.</h6>
+                            <small></small>
+                        </div>
+                    </a>
+                }
             </div>
         </div>
+    </div>
+    <div class="col-md-4">
         <div class="card bg-light mb-3">
             <div class="card-header"><b>Events Happening (Onsite)</b></div>
             <div class="list-group">
@@ -210,9 +235,17 @@
                         </a>
                     }
                 }
+                else
+                {
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-success">There is no Onsite event.</h6>
+                            <small></small>
+                        </div>
+                    </a>
+                }
             </div>
         </div>
-        <div id="chartContainer" style="position: relative; height: 300px; width: 100%;"></div>
     </div>
 </div>
 <br />

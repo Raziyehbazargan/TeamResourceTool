@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using TeamResourceTool.Models;
 using TeamResourceTool.Models.Chart;
 using TeamResourceTool.ViewModels;
+using System.Data.Entity;
 
 namespace TeamResourceTool.Controllers
 {
@@ -42,6 +43,14 @@ namespace TeamResourceTool.Controllers
             ProjectsChart(projects);
 
             return View(viewModel);
+        }
+
+
+        // GET: Resources
+        public ActionResult GetResources(int id)
+        {
+            var resources = _context.Resource.Where(r => r.TeamId == id).Include(r => r.Role).ToList();
+            return View(resources);
         }
 
         private IEnumerable<Resource> GetProjectResources(IEnumerable<Project> projects)

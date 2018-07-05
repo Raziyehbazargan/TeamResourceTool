@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TeamResourceTool.Models.Resource>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Home</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index","Team")">Team</a></li>
+    <li class="breadcrumb-item active">Resource</li>
+</ol>
+<div class="row">
+    <div class="col-md-12">
+        <a href="@Url.Action("Add", "Resource")" class="btn btn-success">Add New Resource + </a>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="table-dark">
+                            <th scope="row">
+                                @{
+                                    var imgsrc = "https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png";
+                                    if (item.ImageFile != null)
+                                    {
+                                        var base64 = Convert.ToBase64String(item.ImageFile);
+                                        imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                    }
+                                    <img style="width: 60px;" src="@imgsrc" class="img-responsive img-thumbnail" />
+                                }
+                            </th>
+                            <td>@item.FirstName @item.LastName</td>
+                            <td>@item.Role.Name</td>
+                            <td><a class="btn btn-danger" href="">Edit / View</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
