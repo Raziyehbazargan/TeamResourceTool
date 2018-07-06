@@ -10,30 +10,24 @@ using TeamResourceTool.Models;
 
 namespace TeamResourceTool.Controllers.Api
 {
-    public class ResourcesApiController : ApiController
+    public class TeamsController : ApiController
     {
         private ApplicationDbContext _context;
-        public ResourcesApiController()
+        public TeamsController()
         {
             _context = new ApplicationDbContext();
         }
 
-        // GET api/resources
-        public IHttpActionResult GetResources()
+        // GET api/teams
+        public IHttpActionResult GetTeams()
         {
-            return Ok(_context.Resource.ToList().Select(Mapper.Map<Resource, ResourceDTO>));
+            return Ok(_context.Team.ToList().Select(Mapper.Map<Team, TeamDTO>));
         }
 
-        // GET api/resources/1
+        // GET api/team/resources
         public IHttpActionResult GetResources(int id)
         {
-            var resource = _context.Resource.FirstOrDefault(r => r.Id == id);
-            if (resource == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(Mapper.Map<Resource, ResourceDTO>(resource));
+            return Ok(_context.Resource.Where(r => r.TeamId == id).ToList().Select(Mapper.Map<Resource, ResourceDTO>));
         }
 
 
@@ -51,42 +45,42 @@ namespace TeamResourceTool.Controllers.Api
             _context.SaveChanges();
 
             resourceDto.Id = resource.Id;
-            return Created(new Uri(Request.RequestUri + "/" + resource.Id), resourceDto);
+            return Created(new Uri(Request.RequestUri + "/" + resource.Id), resourceDto); // by REST convention we should return uri of new data
         }
 
 
-        // PUT api/resources/1
+        // PUT api/Teams/1
         [HttpPut]
-        public IHttpActionResult UpdateResource(int id, ResourceDTO resourceDto)
+        public IHttpActionResult UpdateTeam(int id, TeamDTO teamDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var resourceInDb = _context.Resource.SingleOrDefault(r => r.Id == id);
-            if (resourceInDb == null)
+            var teamInDb = _context.Team.SingleOrDefault(t => t.Id == id);
+            if (teamInDb == null)
             {
                 return NotFound();
             }
 
-            Mapper.Map(resourceDto, resourceInDb);
+            Mapper.Map(teamDto, teamInDb);
             _context.SaveChanges();
 
             return Ok();
         }
 
-        // DELETE api/resources/1
+        // DELETE api/Teams/1
         [HttpDelete]
-        public IHttpActionResult DeleteResource(int id)
+        public IHttpActionResult DeleteTeam(int id)
         {
-            var resourceInDb = _context.Resource.SingleOrDefault(p => p.Id == id);
-            if (resourceInDb == null)
+            var teamInDb = _context.Team.SingleOrDefault(t => t.Id == id);
+            if (teamInDb == null)
             {
                 return NotFound();
             }
 
-            _context.Resource.Remove(resourceInDb);
+            _context.Team.Remove(teamInDb);
             _context.SaveChanges();
 
             return Ok();
