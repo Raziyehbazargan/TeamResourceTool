@@ -1,9 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TeamResourceTool.Dtos;
 using TeamResourceTool.Models;
 
 namespace TeamResourceTool.Controllers.Api
@@ -17,13 +19,13 @@ namespace TeamResourceTool.Controllers.Api
         }
 
         // GET api/projects
-        public IEnumerable<Project> GetProjects()
+        public IEnumerable<ProjectDTO> GetProjects()
         {
-            return _context.Project.ToList();
+            return _context.Project.ToList().Select(Mapper.Map<Project, ProjectDTO>);
         }
 
         // GET api/projects/1
-        public Project GetProject(int id)
+        public ProjectDTO GetProject(int id)
         {
             var project = _context.Project.SingleOrDefault(p => p.Id == id);
 
@@ -32,27 +34,29 @@ namespace TeamResourceTool.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return project;
+            return Mapper.Map<Project, ProjectDTO>(project);
         }
 
         // POST api/projects
         [HttpPost]
-        public Project CreateProject(Project project)
+        public ProjectDTO CreateProject(ProjectDTO projectDto)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
+            var project = Mapper.Map<ProjectDTO, Project>(projectDto);
             _context.Project.Add(project);
             _context.SaveChanges();
 
-            return project;
+            projectDto.Id = project.Id;
+            return projectDto;
         }
 
         // PUT api/projects/1
         [HttpPut]
-        public void UpdateProject(int id, Project project)
+        public void UpdateProject(int id, ProjectDTO projectDto)
         {
             if (!ModelState.IsValid)
             {
@@ -64,6 +68,7 @@ namespace TeamResourceTool.Controllers.Api
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
+            Mapper.Map(projectDto, projectInDb);
             _context.SaveChanges();
         }
 
