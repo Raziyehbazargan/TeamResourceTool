@@ -10,10 +10,10 @@ using TeamResourceTool.Models;
 
 namespace TeamResourceTool.Controllers.Api
 {
-    public class ProjectsController : ApiController
+    public class ProjectsApiController : ApiController
     {
         private ApplicationDbContext _context;
-        public ProjectsController()
+        public ProjectsApiController()
         {
             _context = new ApplicationDbContext();
         }
