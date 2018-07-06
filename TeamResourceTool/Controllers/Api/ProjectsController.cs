@@ -19,31 +19,31 @@ namespace TeamResourceTool.Controllers.Api
         }
 
         // GET api/projects
-        public IEnumerable<ProjectDTO> GetProjects()
+        public IHttpActionResult GetProjects()
         {
-            return _context.Project.ToList().Select(Mapper.Map<Project, ProjectDTO>);
+            return Ok(_context.Project.ToList().Select(Mapper.Map<Project, ProjectDTO>));
         }
 
         // GET api/projects/1
-        public ProjectDTO GetProject(int id)
+        public IHttpActionResult GetProject(int id)
         {
             var project = _context.Project.SingleOrDefault(p => p.Id == id);
 
             if(project == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
             }
 
-            return Mapper.Map<Project, ProjectDTO>(project);
+            return Ok(Mapper.Map<Project, ProjectDTO>(project));
         }
 
         // POST api/projects
         [HttpPost]
-        public ProjectDTO CreateProject(ProjectDTO projectDto)
+        public IHttpActionResult CreateProject(ProjectDTO projectDto)
         {
             if (!ModelState.IsValid)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
             }
 
             var project = Mapper.Map<ProjectDTO, Project>(projectDto);
@@ -51,12 +51,12 @@ namespace TeamResourceTool.Controllers.Api
             _context.SaveChanges();
 
             projectDto.Id = project.Id;
-            return projectDto;
+            return Created(new Uri(Request.RequestUri + "/" + project.Id), projectDto);
         }
 
         // PUT api/projects/1
         [HttpPut]
-        public void UpdateProject(int id, ProjectDTO projectDto)
+        public IHttpActionResult UpdateProject(int id, ProjectDTO projectDto)
         {
             if (!ModelState.IsValid)
             {
@@ -66,24 +66,29 @@ namespace TeamResourceTool.Controllers.Api
             var projectInDb = _context.Project.SingleOrDefault(p => p.Id == id);
             if (projectInDb == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
             }
+
             Mapper.Map(projectDto, projectInDb);
             _context.SaveChanges();
+
+            return Ok();
         }
 
         // DELETE api/projects/1
         [HttpDelete]
-        public void DeleteProject(int id)
+        public IHttpActionResult DeleteProject(int id)
         {
             var projectInDb = _context.Project.SingleOrDefault(p => p.Id == id);
             if (projectInDb == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
             }
 
             _context.Project.Remove(projectInDb);
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Xml;
 
 namespace TeamResourceTool
 {
@@ -9,8 +12,12 @@ namespace TeamResourceTool
     {
         public static void Register(HttpConfiguration config)
         {
-            var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            var settings = config.Formatters.JsonFormatter.SerializerSettings;
+            settings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            settings.Formatting = Newtonsoft.Json.Formatting.Indented;
+         
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             config.MapHttpAttributeRoutes();
