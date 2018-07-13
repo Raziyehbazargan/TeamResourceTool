@@ -9,7 +9,10 @@ namespace TeamResourceTool
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui.js",
+                         "~/Scripts/jquery.datetimepicker.js",
+                        "~/Scripts/knockout-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,6 +29,7 @@ namespace TeamResourceTool
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
+                      "~/Content/jquery-ui.css",
                       "~/Content/Site.css"));
         }
     }

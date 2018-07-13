@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Add";
 }
-<br/>
+<br />
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -42,7 +42,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Project.BuildStart, htmlAttributes: new { @class = "control-label col-md-12" })
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.Project.BuildStart, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Project.BuildStart, new { htmlAttributes = new { @class = "form-control", id = "build_datepicker" } })
                                 @Html.ValidationMessageFor(model => model.Project.BuildStart, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -52,17 +52,28 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Project.GoLive, htmlAttributes: new { @class = "control-label col-md-12" })
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.Project.GoLive, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Project.GoLive, new { htmlAttributes = new { @class = "form-control", id = "live_datepicker" } })
                                 @Html.ValidationMessageFor(model => model.Project.GoLive, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Project.EventStartDate, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Project.EventStartDate, new { htmlAttributes = new { @class = "form-control", id = "start_datepicker" } })
+                                @Html.ValidationMessageFor(model => model.Project.EventStartDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Project.EventStartDate, htmlAttributes: new { @class = "control-label col-md-12" })
+                            @Html.LabelFor(model => model.Project.EventEndDate, htmlAttributes: new { @class = "control-label col-md-12" })
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.Project.EventStartDate, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Project.EventStartDate, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Project.EventEndDate, new { htmlAttributes = new { @class = "form-control", id = "end_datepicker" } })
+                                @Html.ValidationMessageFor(model => model.Project.EventEndDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -147,3 +158,15 @@
         }
     </div>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#build_datepicker").datepicker();
+            $("#live_datepicker").datepicker();
+            $("#start_datepicker").datepicker();
+            $("#end_datepicker").datepicker();
+        });
+    </script>
+}
