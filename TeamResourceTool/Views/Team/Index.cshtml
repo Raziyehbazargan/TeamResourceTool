@@ -75,29 +75,98 @@
 </div>
 <div class="row">
     <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-            </div>
-            <div class="card-footer text-muted text-right">
-                <a href="#" class="card-link">View Details</a>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><b>Live Events</b> <span class="badge badge-warning"> @Model.LiveProjects.Count() </span></div>
+            <div class="list-group">
+                @if (Model != null && Model.LiveProjects.Count() > 1)
+                {
+                    foreach (var item in Model.LiveProjects)
+                    {
+                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 text-success">@item.Name</h6>
+                                <small>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString()) days ago</small>
+                            </div>
+                            <small><b>Live Date: @String.Format("{0:MM/dd/yyyy}", item.GoLive)</b></small>
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-success">There is no Live event.</h6>
+                            <small></small>
+                        </div>
+                    </a>
+                }
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-            </div>
-            <div class="card-footer text-muted text-right">
-                <a href="#" class="card-link">View Details</a>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><b>Events Happening (Onsite)</b> <span class="badge badge-warning"> @Model.InProgressProjects.Count() </span></div>
+            <div class="list-group">
+                @if (Model != null && Model.InProgressProjects.Count() > 0)
+                {
+                    foreach (var item in Model.InProgressProjects)
+                    {
+                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 text-danger">@item.Name</h6>
+                                <small>@item.EventLocation</small>
+                            </div>
+
+                            <small><b>Event Dates:</b> @string.Format("{0:MM/dd/yyyy}", item.EventStartDate) - @string.Format("{0:MM/dd/yyyy}", item.EventEndDate)</small>
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a href="" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-danger">No event</h6>
+                            <small> </small>
+                        </div>
+
+                        <small><b></b></small>
+                    </a>
+                }
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                <div class="pull-left">
+                    <b>Closed Events in last two weeks</b>
+                </div>
             </div>
-            <div class="card-footer text-muted text-right">
-                <a href="#" class="card-link">View Details</a>
+            <div class="card-body text-center" style="padding:0">
+                <div class="list-group">
+                    @if (Model != null && Model.ClosedProjects.Count() > 1)
+                    {
+                        foreach (var item in Model.ClosedProjects)
+                        {
+                            <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1 text-success">@item.Name</h6>
+                                    <small>@(DateTime.Now.Subtract((DateTime)item.EventEndDate).Days.ToString()) days ago</small>
+                                </div>
+                                <small><b>Event End Date: @String.Format("{0:MM/dd/yyyy}", item.EventEndDate)</b></small>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1 text-success">There is no CLosed event.</h6>
+                                <small></small>
+                            </div>
+                        </a>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -127,20 +196,6 @@
             </div>
         </div>
     </div>
-    @*<div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <i class="fa fa-list-alt" aria-hidden="true"></i> Sprint Planning
-                    </h4>
-                    <h6 class="card-subtitle mb-2 text-muted text-center"></h6>
-                    <p class="card-text"></p>
-                </div>
-                <div class="card-footer text-muted text-right">
-                    <a href="@Url.Action("Index","Project", new { id = Request.Url.Segments.Last() })" class="card-link">View Details</a>
-                </div>
-            </div>
-        </div>*@
 </div>
 <br />
 <div class="row">
@@ -154,7 +209,7 @@
                     <a href="@Url.Action("Add", "Project")" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Event</a>
                 </div>
             </div>
-            <div class="card-body text-center" style="padding:0">
+            <div class="card-body text-center" style="padding:0;max-height: 250px;margin-bottom: 10px;overflow-y:scroll;-webkit-overflow-scrolling: touch;">
                 <table class="table table-hover" style="margin-bottom:0px !important;">
                     <thead>
                         <tr>
@@ -214,7 +269,7 @@
                 </div>
             </div>
             <div class="card-body text-center" style="color: #111;padding:0">
-                <ul class="list-unstyled" style="max-height: 200px;margin-bottom: 10px;overflow-y:scroll;-webkit-overflow-scrolling: touch;">
+                <ul class="list-unstyled" style="max-height: 250px;margin-bottom: 10px;overflow-y:scroll;-webkit-overflow-scrolling: touch;">
                     @if (Model != null && Model.Resources != null)
                     {
                         foreach (var item in Model.Resources)
@@ -242,102 +297,6 @@
             </div>
             <div class="card-footer text-muted text-right">
                 <a href="#" class="card-link">View Details</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-light mb-3">
-            <div class="card-header"><b>Live Events</b> <span class="badge badge-warning"> @Model.LiveProjects.Count() </span></div>
-            <div class="list-group">
-                @if (Model != null && Model.LiveProjects != null)
-                {
-                    foreach (var item in Model.LiveProjects)
-                    {
-                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-1 text-success">@item.Name</h6>
-                                <small>@(DateTime.Now.Subtract((DateTime)item.GoLive).Days.ToString()) days ago</small>
-                            </div>
-                            <small><b>Live Date: @String.Format("{0:MM/dd/yyyy}", item.GoLive)</b></small>
-                        </a>
-                    }
-                }
-                else
-                {
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1 text-success">There is no Live event.</h6>
-                            <small></small>
-                        </div>
-                    </a>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-light mb-3">
-            <div class="card-header"><b>Events Happening (Onsite)</b> <span class="badge badge-warning"> @Model.InProgressProjects.Count() </span></div>
-            <div class="list-group">
-                @if (Model != null && Model.InProgressProjects.Count() > 0)
-                {
-                    foreach (var item in Model.InProgressProjects)
-                    {
-                        <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-1 text-danger">@item.Name</h6>
-                                <small>@item.EventLocation</small>
-                            </div>
-
-                            <small><b>Event Dates:</b> @string.Format("{0:MM/dd/yyyy}", item.EventStartDate) - @string.Format("{0:MM/dd/yyyy}", item.EventEndDate)</small>
-                        </a>
-                    }
-                }
-                else
-                {
-                    <a href="" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1 text-danger">No event</h6>
-                            <small> </small>
-                        </div>
-
-                        <small><b></b></small>
-                    </a>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-light mb-3">
-            <div class="card-header">
-                <div class="pull-left">
-                    <b>Closed Events in last two weeks</b>
-                </div>
-            </div>
-            <div class="card-body text-center" style="padding:0">
-                <div class="list-group">
-                    @if (Model != null && Model.ClosedProjects != null)
-                    {
-                        foreach (var item in Model.ClosedProjects)
-                        {
-                            <a href="@Url.Action("Details", "Project", new { teamID = item.TeamId, projectId = item.Id })" class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1 text-success">@item.Name</h6>
-                                    <small>@(DateTime.Now.Subtract((DateTime)item.EventEndDate).Days.ToString()) days ago</small>
-                                </div>
-                                <small><b>Event End Date: @String.Format("{0:MM/dd/yyyy}", item.EventEndDate)</b></small>
-                            </a>
-                        }
-                    }
-                    else
-                    {
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-1 text-success">There is no Live event.</h6>
-                                <small></small>
-                            </div>
-                        </a>
-                    }
-                </div>
             </div>
         </div>
     </div>

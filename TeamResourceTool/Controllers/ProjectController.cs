@@ -96,7 +96,7 @@ namespace TeamResourceTool.Controllers
             {
                 _context.Project.Add(project);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Team", new { id = project.TeamId});
             }
             return View();
 

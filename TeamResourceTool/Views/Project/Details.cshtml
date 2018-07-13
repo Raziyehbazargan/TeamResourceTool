@@ -42,8 +42,6 @@
     <div class="col-md-9">
         <div style="text-align: right;">
             <button class="btn btn-info">Edit Project</button>
-            <a href="@Url.Action("AssignResource", "Project", new { id = Model.Project.TeamId, pId = Model.Project.Id })" class="btn btn-warning">Assign Resource</a>
-
         </div>
         <h4>General Info</h4>
         <p>@Model.Project.Description</p>
@@ -56,27 +54,29 @@
             <p><b>Client:</b> @Model.Project.Client</p>
             <p><b>Project Resources:</b> <span class="badge badge-success">@Model.Resources.Count()</span></p>
             <div class="row">
-                @{
-                    if (Model.Resources.Any())
-                    {
-                        foreach (var item in Model.Resources)
-                        {
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">@item.FirstName @item.LastName</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">@item.Role.Name</h6>
-                                        <p class="card-text"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
+                <table class="table table-hover">
+                    <tbody>
+                        @{
+                            if (Model.Resources.Any())
+                            {
+                                foreach (var item in Model.Resources)
+                                {
+                                    <tr>
+                                        <td class="text-primary">
+                                            <i class="fa fa-user" aria-hidden="true"></i> <a href="#"><b> @item.FirstName  @item.LastName</b></a>
+                                        </td>
+                                        <td>@item.Role.Name</td>
+                                        <td style="cursor: pointer;"><i class="fa fa-trash-o text-danger" aria-hidden="true"></i></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
 
-                    }
-                }
+                            }
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -97,16 +97,10 @@
         </div>
         <div class="card bg-light mb-3" style="max-width: 20rem;">
             <div class="card-header">
-                <b>Assigned Resources</b>  <span class="badge badge-warning">@Model.Resources.Count()</span>
+                <b>Project Files</b>
             </div>
             <div class="card-body">
-                @foreach (var item in Model.Resources)
-                {
-                    <p>
-                        <b>@item.FirstName @item.LastName</b><br />
-                        @item.Role.Name
-                    </p>
-                }
+                <a class="card-text" href="@Model.Project.BuildSpecPath"><i class="fa fa-file"></i> Build Spec</a>
             </div>
         </div>
     </div>
