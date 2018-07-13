@@ -16,6 +16,12 @@ namespace TeamResourceTool.App_Start
             {
                 config.CreateMap<Project, ProjectDTO>().ReverseMap();
                 config.CreateMap<ProjectDTO, Project>().ReverseMap();
+
+                config.CreateMap<Resource, ResourceDTO>().ReverseMap();
+                config.CreateMap<ResourceDTO, Resource>().ReverseMap();
+
+                config.CreateMap<Team, TeamDTO>().ReverseMap();
+                config.CreateMap<TeamDTO, Team>().ReverseMap();
             });
         }
     }
